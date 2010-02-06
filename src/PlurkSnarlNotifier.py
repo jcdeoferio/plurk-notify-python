@@ -1,5 +1,5 @@
 #requires simplejson, PySnarl
-import PySnarl, simplejson, urllib2, urllib, time
+import PySnarl, simplejson, urllib2, urllib, time, ConfigParser
 from time import localtime, strftime, gmtime
 class PlurkSnarlNotifier(object):
     api_key = 'UqHifByhsRxXpHtgP102o22Jvy7yHZZ0'
@@ -68,9 +68,12 @@ class PlurkSnarlNotifier(object):
                     elif posted > prevTime:
                         self.snarlShowMessage('Plurk', message, image)
                 firstTime = True
-                time.sleep(15)
                 prevTime = currTime
+                time.sleep(15)
                 
-                
-test = PlurkSnarlNotifier('juancd', 'password')
+config = ConfigParser.RawConfigParser()
+config.read('settings.ini')
+username = config.get('login','username')
+password = config.get('login','password')           
+test = PlurkSnarlNotifier(username,password)
 test.run()
